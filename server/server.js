@@ -2,12 +2,18 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+var cors = require('cors')
 const bodyParser = require('body-parser')
+const ClothesRoute = require('./routes/clothes.routes');
+const AccountRoute = require('./routes/account.routes')
+const AuthenticationController = require('./routes/authentication.routes')
 
 
 /// Process file json and env
 app.use(bodyParser.json())
 dotenv.config();
+app.use(cors())
+
 
 
 /// Connect MongoDB
@@ -19,9 +25,9 @@ mongoose.connection.on("error", () => {
     console.log("Connect MongoDB Failed !")
 })
 
-app.use('/test', (req, res) => {
-    res.send("kkkk")
-})
+app.use("/api/clothes", ClothesRoute)
+app.use("/api/account", AccountRoute)
+app.use("/api/authentication",AuthenticationController)
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
