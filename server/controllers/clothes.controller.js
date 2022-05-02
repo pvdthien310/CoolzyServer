@@ -12,12 +12,15 @@ const clothesController = {
     },
     create: (req, res) => {
         const newClothes = new clothesModel({
-            name: req.body.name,
-            price: req.body.price,
-            brand: req.body.brand,
-            images: req.body.images
-        })
-        // console.log(newStatus)
+                name: req.body.name,
+                price: req.body.price,
+                brand: req.body.brand,
+                images: req.body.images,
+                description: req.body.description,
+                category: req.body.category,
+                size: req.body.size
+            })
+            // console.log(newStatus)
         newClothes.save()
             .then((data) => {
                 // console.log(data)
@@ -27,6 +30,7 @@ const clothesController = {
                 console.log('Error')
             })
     },
+
     deleteAll: (req, res) => {
         clothesModel.deleteMany({})
             .then((data) => {
@@ -35,6 +39,30 @@ const clothesController = {
             })
             .catch(err => {
                 console.log('Error')
+            })
+    },
+
+    getById: (req, res) => {
+        clothesModel.findOne({
+                email: req.params._id
+            })
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
+    },
+
+    getByCategory: (req, res) => {
+        clothesModel.find({
+                category: req.params.category
+            })
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
             })
     }
 }
