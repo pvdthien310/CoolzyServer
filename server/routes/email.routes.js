@@ -7,13 +7,13 @@ router.post('/verify', (req, res) => {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'shinemaapplication@gmail.com',
-            pass: 'Shinema_123'
+            user: 'coolzyproject@gmail.com',
+            pass: 'coolzyproject@1'
         }
     });
 
     var mailOptions = {
-        from: 'shinemaapplication@gmail.com',
+        from: 'coolzyproject@gmail.com',
         to: req.body.to,
         subject: req.body.subject,
         text: req.body.text

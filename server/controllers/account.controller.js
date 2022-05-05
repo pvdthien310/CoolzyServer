@@ -71,6 +71,17 @@ const accountController = {
                 res.status(500).json({ Err: err })
             })
     },
+    getByEmail: (req, res) => {
+        accountModel.findOne({
+                email: req.params.email
+            })
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
+    },
     deleteAll: (req, res) => {
         accountModel.deleteMany({})
             .then((data) => {
@@ -79,6 +90,17 @@ const accountController = {
             .catch(err => {
                 console.log('Error')
             })
+    },
+    checkEmail: (req, res) => {
+        accountModel.findOne({ email: req.params.email })
+            .then(data => {
+                if (data) {
+                    res.send('Email already exists')
+                } else {
+                    res.send('EmailOK')
+                }
+            })
+            .catch(err => console.log(err))
     }
 }
 module.exports = accountController
