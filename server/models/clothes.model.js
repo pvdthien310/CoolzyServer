@@ -20,14 +20,15 @@ const ClothesSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    category: {
+
+    _categoryId: {
         type: String,
         require: true
     },
     size: {
         type: Array,
 
-        name: {
+        size: {
             type: String,
             require: true
         },
@@ -37,6 +38,11 @@ const ClothesSchema = new mongoose.Schema({
             require: true,
             default: 0
         }
+    },
+    isAvailable: {
+        type: Boolean,
+        require: true,
+        default: false
     }
 })
 module.exports = mongoose.model("Clothes", ClothesSchema);

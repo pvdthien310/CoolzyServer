@@ -11,8 +11,8 @@ const OrderRoute = require('./routes/order.routes')
 const CodeRoute = require('./routes/code.routes')
 const HomePageAssetsRoute = require('./routes/homePageAssets.routes')
 const AuthenticationRoute = require('./routes/authentication.routes')
-const AuthenticationController = require('./routes/authentication.routes')
 const EmailRoute = require('./routes/email.routes')
+const CategoryRoute = require('./routes/category.routes');
 
 /// Process file json and env
 app.use(bodyParser.json())
@@ -34,8 +34,9 @@ app.use("/api/authentication", AuthenticationRoute)
 app.use("/api/order", OrderRoute)
 app.use("/api/code", CodeRoute)
 app.use("/api/homePageAssets", HomePageAssetsRoute)
-app.use("/api/authentication", AuthenticationController)
 app.use('/api/sendMail', EmailRoute)
+
+app.use("/api/category", CategoryRoute)
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
