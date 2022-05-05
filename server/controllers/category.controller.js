@@ -1,8 +1,8 @@
-const clothesModel = require('../models/clothes.model')
+const categoryModel = require('../models/category.model')
 
-const clothesController = {
+const categoriesController = {
     getAll: (req, res) => {
-        clothesModel.find({})
+        categoryModel.find({})
             .then(data => {
                 res.json(data)
             })
@@ -10,18 +10,24 @@ const clothesController = {
                 res.status(500).json({ Err: err })
             })
     },
+
+    getAllId: (req, res) => {
+        categoryModel.find({})
+            .then(data => {
+                let result = data.map((item) => item._id)
+                res.json(result);
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
+    },
+
     create: (req, res) => {
-        const newClothes = new clothesModel({
+        const newCategory = new categoryModel({
                 name: req.body.name,
-                price: req.body.price,
-                brand: req.body.brand,
-                images: req.body.images,
-                description: req.body.description,
-                _categoryId: req.body._categoryId,
-                size: req.body.size
             })
             // console.log(newStatus)
-        newClothes.save()
+        newCategory.save()
             .then((data) => {
                 // console.log(data)
                 res.send("Add Success")
@@ -32,7 +38,7 @@ const clothesController = {
     },
 
     deleteAll: (req, res) => {
-        clothesModel.deleteMany({})
+        categoryModel.deleteMany({})
             .then((data) => {
                 // console.log(data)
                 res.send("Delete All Success")
@@ -43,7 +49,7 @@ const clothesController = {
     },
 
     getById: (req, res) => {
-        clothesModel.findOne({
+        categoryModel.findOne({
                 _id: req.params.id
             })
             .then(data => {
@@ -54,26 +60,19 @@ const clothesController = {
             })
     },
 
-    getByCategoryId: (req, res) => {
-        clothesModel.find({
-                _categoryId: req.params.id
+    deleteById: (req, res) => {
+        categoryModel.deleteOne({
+                _id: req.params.id
             })
-            .then(data => {
-                res.json(data);
+            .then((data) => {
+                // console.log(data)
+                res.send("Delete Success")
             })
             .catch(err => {
-                res.status(500).json({ Err: err })
+                console.log('Error')
             })
     },
 
-    deleteById: (req, res) => {
-        clothesModel.deleteOne({
-                _id: req.params.id
-            })
-            .then(data => {
-                res.send("Delete success")
-            })
-            .catch(err => { res.status.json({ Err: err }) })
-    }
+
 }
-module.exports = clothesController
+module.exports = categoriesController
