@@ -8,8 +8,9 @@ router.post('/', controller.create)
 router.post('/checkEmail/:email', controller.checkEmail)
 
 router.get('/:email', controller.getByEmail)
-router.get('/', authenToken, controller.getAll)
+router.get('/', controller.getAll)
 
 router.delete('/deleteAll', controller.deleteAll)
+router.post('/:id', controller.update)
 
 module.exports = router
