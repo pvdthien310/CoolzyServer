@@ -29,16 +29,13 @@ mongoose.connection.on("error", () => {
 })
 
 app.use("/api/clothes", ClothesRoute)
-app.use("/api/account", AccountRoute) <<
-    << << < HEAD
+app.use("/api/account", AccountRoute)
 app.use("/api/authentication", AuthenticationRoute)
 app.use("/api/order", OrderRoute)
 app.use("/api/code", CodeRoute)
-app.use("/api/homePageAssets", HomePageAssetsRoute) ===
-    === =
-    app.use("/api/authentication", AuthenticationController)
-app.use('/api/sendMail', EmailRoute) >>>
-    >>> > Thuc
+app.use("/api/homePageAssets", HomePageAssetsRoute)
+app.use("/api/authentication", AuthenticationController)
+app.use('/api/sendMail', EmailRoute)
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
