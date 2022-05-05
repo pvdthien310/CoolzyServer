@@ -4,12 +4,15 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 var cors = require('cors')
 const bodyParser = require('body-parser')
+
 const ClothesRoute = require('./routes/clothes.routes');
 const AccountRoute = require('./routes/account.routes')
 const OrderRoute = require('./routes/order.routes')
 const CodeRoute = require('./routes/code.routes')
 const HomePageAssetsRoute = require('./routes/homePageAssets.routes')
 const AuthenticationRoute = require('./routes/authentication.routes')
+const AuthenticationController = require('./routes/authentication.routes')
+const EmailRoute = require('./routes/email.routes')
 
 /// Process file json and env
 app.use(bodyParser.json())
@@ -26,15 +29,18 @@ mongoose.connection.on("error", () => {
 })
 
 app.use("/api/clothes", ClothesRoute)
-app.use("/api/account", AccountRoute)
-app.use("/api/authentication",AuthenticationRoute)
-app.use("/api/order",OrderRoute)
-app.use("/api/code",CodeRoute)
-app.use("/api/homePageAssets",HomePageAssetsRoute)
+app.use("/api/account", AccountRoute) <<
+    << << < HEAD
+app.use("/api/authentication", AuthenticationRoute)
+app.use("/api/order", OrderRoute)
+app.use("/api/code", CodeRoute)
+app.use("/api/homePageAssets", HomePageAssetsRoute) ===
+    === =
+    app.use("/api/authentication", AuthenticationController)
+app.use('/api/sendMail', EmailRoute) >>>
+    >>> > Thuc
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
     console.log('Backends server is running!')
 });
-
-

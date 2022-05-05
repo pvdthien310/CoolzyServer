@@ -14,6 +14,21 @@ const AccountSchema = new mongoose.Schema({
     role: {
         type: String,
         require: true
-    }
+    },
+    name: {
+        type: String,
+    },
+    phoneNumber: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    gender: {
+        type: String,
+    },
+    birthday: {
+        type: String,
+    },
 })
 module.exports = mongoose.model("Account", AccountSchema);
