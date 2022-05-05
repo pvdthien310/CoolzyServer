@@ -4,10 +4,11 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 var cors = require('cors')
 const bodyParser = require('body-parser')
+
 const ClothesRoute = require('./routes/clothes.routes');
 const AccountRoute = require('./routes/account.routes')
 const AuthenticationController = require('./routes/authentication.routes')
-
+const EmailRoute = require('./routes/email.routes')
 
 /// Process file json and env
 app.use(bodyParser.json())
@@ -27,11 +28,10 @@ mongoose.connection.on("error", () => {
 
 app.use("/api/clothes", ClothesRoute)
 app.use("/api/account", AccountRoute)
-app.use("/api/authentication",AuthenticationController)
+app.use("/api/authentication", AuthenticationController)
+app.use('/api/sendMail', EmailRoute)
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
     console.log('Backends server is running!')
 });
-
-

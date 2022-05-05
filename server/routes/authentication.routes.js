@@ -5,4 +5,4 @@ const controller = require('../controllers/authentication.controller')
 
 router.post('/login', controller.login)
 router.post('/refreshToken', controller.refreshToken)
-module.exports = router
+module.exports = router 
