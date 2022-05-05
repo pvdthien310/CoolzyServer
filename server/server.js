@@ -6,15 +6,15 @@ var cors = require('cors')
 const bodyParser = require('body-parser')
 const ClothesRoute = require('./routes/clothes.routes');
 const AccountRoute = require('./routes/account.routes')
-const AuthenticationController = require('./routes/authentication.routes')
-
+const OrderRoute = require('./routes/order.routes')
+const CodeRoute = require('./routes/code.routes')
+const HomePageAssetsRoute = require('./routes/homePageAssets.routes')
+const AuthenticationRoute = require('./routes/authentication.routes')
 
 /// Process file json and env
 app.use(bodyParser.json())
 dotenv.config();
 app.use(cors())
-
-
 
 /// Connect MongoDB
 mongoose.connect(process.env.MONGO_URL)
@@ -27,7 +27,10 @@ mongoose.connection.on("error", () => {
 
 app.use("/api/clothes", ClothesRoute)
 app.use("/api/account", AccountRoute)
-app.use("/api/authentication",AuthenticationController)
+app.use("/api/authentication",AuthenticationRoute)
+app.use("/api/order",OrderRoute)
+app.use("/api/code",CodeRoute)
+app.use("/api/homePageAssets",HomePageAssetsRoute)
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
