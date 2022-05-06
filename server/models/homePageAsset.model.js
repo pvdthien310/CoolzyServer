@@ -16,4 +16,4 @@ const HomePageAsset = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("Category", HomePageAsset);
+module.exports = mongoose.model("HomePageAsset", HomePageAsset);

@@ -1,70 +1,88 @@
 const homePageAssetModel = require('../models/homePageAsset.model')
 
-const categoriesController = {
-    // getAll: (req, res) => {
-    //     homePageAsset.find({})
-    //         .then(data => {
-    //             res.json(data)
-    //         })
-    //         .catch(err => {
-    //             res.status(500).json({ Err: err })
-    //         })
-    // },
+const homePageAssetController = {
+    getAll: (req, res) => {
+        homePageAssetModel.find({})
+            .then(data => {
+                if (data.length == 0)
+                    res.json(data)
+                else res.json(data[0])
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
+    },
+
+    create: (req, res) => {
+        let tmp;
+        homePageAssetModel.find({})
+            .then(data => {
+                tmp = data;
+                if (tmp.length == 0) {
+                    const newAsset = new homePageAssetModel({
+                            listSlider: req.body.listSlider,
+                            listProduct: req.body.listProduct,
+                            listBrand: req.body.listBrand
+                        })
+                        // console.log(newStatus)
+                    newAsset.save()
+                        .then((data) => {
+                            // console.log(data)
+                            res.send("Add Success")
+                        })
+                        .catch(err => {
+                            console.log('Error')
+                        })
+                } else {
+                    res.send("Document existed, please update the document")
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
 
 
-    // create: (req, res) => {
-    //     const newAsset = new categoryModel({
-    //             listSlider: req.body.listSlider,
-    //             listProduct: req.body.listProduct,
-    //             listBrand: req.body.listBrand
-    //         })
-    //         // console.log(newStatus)
-    //     newAsset.save()
-    //         .then((data) => {
-    //             // console.log(data)
-    //             res.send("Add Success")
-    //         })
-    //         .catch(err => {
-    //             console.log('Error')
-    //         })
-    // },
+    },
 
-    // deleteAll: (req, res) => {
-    //     homePageAsset.deleteMany({})
-    //         .then((data) => {
-    //             // console.log(data)
-    //             res.send("Delete All Success")
-    //         })
-    //         .catch(err => {
-    //             console.log('Error')
-    //         })
-    // },
-
-    // getById: (req, res) => {
-    //     homePageAsset.findOne({
-    //             _id: req.params.id
-    //         })
-    //         .then(data => {
-    //             res.json(data)
-    //         })
-    //         .catch(err => {
-    //             res.status(500).json({ Err: err })
-    //         })
-    // },
-
-    // deleteById: (req, res) => {
-    //     homePageAsset.deleteOne({
-    //             _id: req.params.id
-    //         })
-    //         .then((data) => {
-    //             // console.log(data)
-    //             res.send("Delete Success")
-    //         })
-    //         .catch(err => {
-    //             console.log('Error')
-    //         })
-    // },
+    updateListProduct: (req, res) => {
+        let arr;
+        homePageAssetModel.find({})
+            .then(data => {
+                arr = data
+                if (arr.length == 0) {
+                    const newAsset = new homePageAssetModel({
+                        listProduct: req.body.listProduct
+                    })
+                    newAsset.save()
+                        .then((data2) => {
+                            res.send("Add Success")
+                        })
+                        .catch(err => {
+                            console.log('Error')
+                        })
+                } else
+                    homePageAssetModel.updateOne({
+                        _id: arr[0]._id
+                    }, {
+                        listProduct: req.body.listProduct
+                    })
+                    .then(() => {
+                        res.send("Update listProduct success")
+                    })
+                    .catch(err => {
+                        console.log('Error')
+                    })
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
 
 
+
+    },
+
+    updateListSlider: (req, res) => {},
+
+    updateListBrand: (req, res) => {}
 }
-module.exports = categoriesController
+module.exports = homePageAssetController
