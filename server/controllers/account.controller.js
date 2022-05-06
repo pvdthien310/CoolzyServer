@@ -35,8 +35,8 @@ const accountController = {
 
 
         accountModel.findOne({
-                email: req.body.email
-            })
+            email: req.body.email
+        })
             .then(data => {
                 if (data) {
 
@@ -73,8 +73,8 @@ const accountController = {
     },
     getByEmail: (req, res) => {
         accountModel.findOne({
-                email: req.params.email
-            })
+            email: req.params.email
+        })
             .then(data => {
                 res.json(data)
             })
@@ -101,6 +101,22 @@ const accountController = {
                 }
             })
             .catch(err => console.log(err))
+    },
+    update: (req, res) => {
+        accountModel.findOneAndUpdate({ _id: req.params.id }, req.body, { "new": true, "upsert": true })
+            .then((data) => {
+                res.send(data)
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+    deleteAccount: (req, res) => {
+        accountModel.findOneAndDelete({ _id: req.params.id })
+            .then((data) => {
+                res.send(data)
+            }).catch(err => {
+                console.log(err)
+            })
     }
 }
 module.exports = accountController

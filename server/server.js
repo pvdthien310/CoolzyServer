@@ -11,7 +11,6 @@ const OrderRoute = require('./routes/order.routes')
 const CodeRoute = require('./routes/code.routes')
 const HomePageAssetRoute = require('./routes/homePageAsset.routes')
 const AuthenticationRoute = require('./routes/authentication.routes')
-const AuthenticationController = require('./routes/authentication.routes')
 const EmailRoute = require('./routes/email.routes')
 const CategoryRoute = require('./routes/category.routes');
 
@@ -37,8 +36,7 @@ app.use("/api/code", CodeRoute)
 app.use("/api/homePageAsset", HomePageAssetRoute)
 app.use("/api/authentication", AuthenticationController)
 app.use('/api/sendMail', EmailRoute)
-app.use("/api/account", AccountRoute)
-app.use("/api/authentication", AuthenticationController)
+
 app.use("/api/category", CategoryRoute)
 
 const port = process.env.PORT || 3001
