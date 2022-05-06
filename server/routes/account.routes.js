@@ -12,5 +12,6 @@ router.get('/', controller.getAll)
 
 router.delete('/deleteAll', controller.deleteAll)
 router.post('/:id', controller.update)
+router.delete('/:id', controller.deleteAccount)
 
 module.exports = router

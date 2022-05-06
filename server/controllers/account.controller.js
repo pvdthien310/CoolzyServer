@@ -109,6 +109,14 @@ const accountController = {
             }).catch(err => {
                 console.log(err)
             })
+    },
+    deleteAccount: (req, res) => {
+        accountModel.findOneAndDelete({ _id: req.params.id })
+            .then((data) => {
+                res.send(data)
+            }).catch(err => {
+                console.log(err)
+            })
     }
 }
 module.exports = accountController
