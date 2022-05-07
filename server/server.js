@@ -34,7 +34,6 @@ app.use("/api/authentication", AuthenticationRoute)
 app.use("/api/order", OrderRoute)
 app.use("/api/code", CodeRoute)
 app.use("/api/homePageAsset", HomePageAssetRoute)
-app.use("/api/authentication", AuthenticationController)
 app.use('/api/sendMail', EmailRoute)
 
 app.use("/api/category", CategoryRoute)
