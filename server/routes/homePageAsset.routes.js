@@ -4,11 +4,10 @@ var router = express.Router()
 const controller = require('../controllers/homePageAsset.controller')
 const { authenToken } = require('../middlewares/authenToken')
 
-// router.get('/', authenToken, controller.getAll)
-// router.post('/', controller.create)
-// router.delete('/deleteAll', controller.deleteAll)
-// router.get('/:id', controller.getById)
-// router.delete('/delete/:id', controller.deleteById)
-// router.get('/getAll/id', controller.getAllId)
+router.get('/', controller.getAll)
+router.post('/', controller.create)
+router.post('/updateSlider', controller.updateListSlider)
+router.post('/updateProduct', controller.updateListProduct)
+router.post('/updateBrand', controller.updateListBrand)
 
 module.exports = router

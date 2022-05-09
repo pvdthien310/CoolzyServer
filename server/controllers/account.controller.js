@@ -15,25 +15,6 @@ const accountController = {
     },
 
     create: (req, res) => {
-        // const newAccount = new accountModel({
-        //     email: req.body.email,
-        //     password: req.body.password,
-        //     name: req.body.name,
-        //     phoneNumber: req.body.phoneNumber,
-        //     address: req.body.address,
-        //     gender: req.body.gender,
-        //     birthday: req.body.birthday,
-        //     role: req.body.role,
-        // })
-        // newAccount.save()
-        //     .then((data) => {
-        //         res.send("Add Success")
-        //     })
-        //     .catch(err => {
-        //         res.status(500).send("Error Create Account. Maybe Account Is Existed! ")
-        //     })
-
-
         accountModel.findOne({
             email: req.body.email
         })
