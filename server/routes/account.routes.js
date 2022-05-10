@@ -9,6 +9,7 @@ router.post('/checkEmail/:email', controller.checkEmail)
 
 router.get('/:email', controller.getByEmail)
 router.get('/', controller.getAll)
+router.get('/staff/all', controller.getAllStaff)
 
 router.delete('/deleteAll', controller.deleteAll)
 router.post('/:id', controller.update)
