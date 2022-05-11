@@ -38,6 +38,32 @@ const orderController = {
                 res.status(500).json({ Err: err })
             })
     },
+    deleteAll: (req, res) => {
+        orderModel.deleteMany({})
+            .then((data) => {
+                res.send("Delete All Success")
+            })
+            .catch(err => {
+                console.log('Error')
+            })
+    },
+    deleteOrderById: (req, res) => {
+        orderModel.findOneAndDelete({ _id: req.params.id })
+            .then((data) => {
+                res.send(data)
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+    updateOrderById: (req, res) => {
+        orderModel.findOneAndUpdate({ _id: req.params.id }, req.body, { "new": true, "upsert": true })
+            .then((data) => {
+                res.send(data)
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+
 
 }
 module.exports = orderController

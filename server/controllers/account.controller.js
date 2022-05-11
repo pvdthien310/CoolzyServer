@@ -16,8 +16,8 @@ const accountController = {
 
     create: (req, res) => {
         accountModel.findOne({
-            email: req.body.email
-        })
+                email: req.body.email
+            })
             .then(data => {
                 if (data) {
 
@@ -54,8 +54,8 @@ const accountController = {
     },
     getByEmail: (req, res) => {
         accountModel.findOne({
-            email: req.params.email
-        })
+                email: req.params.email
+            })
             .then(data => {
                 res.json(data)
             })
@@ -98,6 +98,17 @@ const accountController = {
             }).catch(err => {
                 console.log(err)
             })
+    },
+
+    getAllStaff: (req, res) => {
+        accountModel.find({ role: "Staff" })
+            .then(data => {
+                res.send(data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
     }
 }
 module.exports = accountController
