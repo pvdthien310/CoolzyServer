@@ -109,6 +109,18 @@ const accountController = {
                 console.log(err)
             })
 
+    },
+
+    getById: (req, res) => {
+        accountModel.findOne({
+                _id: req.params.id
+            })
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
     }
 }
 module.exports = accountController
