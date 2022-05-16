@@ -30,6 +30,9 @@ mongoose.connection.on("error", () => {
     console.log("Connect MongoDB Failed !")
 })
 
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 app.use("/api/clothes", ClothesRoute)
 app.use("/api/account", AccountRoute)
 app.use("/api/authentication", AuthenticationRoute)

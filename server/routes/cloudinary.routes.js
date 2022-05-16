@@ -1,8 +1,7 @@
-module.exports = app => {
-    const cloundinary = require("../controllers/cloudinary.controller");
-    var router = require("express").Router();
-    // Upload images
-    router.post("/", cloundinary.uploadImages);
-    app.use('/api/cloudinary', router);
-};
+const express = require('express')
+var router = express.Router()
 
+const controller = require('../controllers/cloudinary.controller')
+
+router.post('/', controller.uploadImages)
+module.exports = router
