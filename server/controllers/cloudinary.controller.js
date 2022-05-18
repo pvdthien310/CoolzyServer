@@ -4,10 +4,9 @@ const cloudinaryController = {
     uploadImages: async(req, res, next) => {
         try {
             const listImages = req.body.data
-            console.log(req.body.data.length)
             const result = []
             listImages.map(async(item) => {
-                const uploadedResponse = await cloudinary.uploader.upload(item, {
+                const uploadedResponse = await cloudinary.uploader.upload_large(item, {
                     upload_preset: 'coolzy_instance'
                 }).catch(err => {
                     console.log(err)

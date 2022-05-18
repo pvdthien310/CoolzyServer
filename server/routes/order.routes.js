@@ -9,6 +9,8 @@ router.get('/', controller.getAll)
 router.get('/:id', controller.getById)
 router.delete('/deleteAll', controller.deleteAll)
 router.delete('/:id', controller.deleteOrderById)
+
+router.post('/productExisted', controller.productExisted)
 router.post('/:id', controller.updateOrderById)
 
 module.exports = router

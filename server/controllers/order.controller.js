@@ -63,7 +63,17 @@ const orderController = {
                 console.log(err)
             })
     },
-
+    productExisted: (req, res) => {
+        let flag = false
+        orderModel.find({})
+            .then(data => {
+                data.forEach(element => {
+                    let result = element.items.find(e => e._itemid == req.body.productId)
+                    if (result) flag = true
+                })
+                res.send(flag)
+            }).catch(err => console.log(err))
+    }
 
 }
 module.exports = orderController
