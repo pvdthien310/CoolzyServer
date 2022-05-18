@@ -29,6 +29,6 @@ const AccountSchema = new mongoose.Schema({
     },
     birthday: {
         type: String,
-    },
+    }
 })
 module.exports = mongoose.model("Account", AccountSchema);

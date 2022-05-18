@@ -121,6 +121,8 @@ const accountController = {
             .catch(err => {
                 res.status(500).json({ Err: err })
             })
-    }
+    },
+
+
 }
 module.exports = accountController
