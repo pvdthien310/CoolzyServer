@@ -17,9 +17,15 @@ const cloudinaryRoute = require('./routes/cloudinary.routes');
 
 
 /// Process file json and env
+app.use(cors())
 app.use(bodyParser.json())
 dotenv.config();
-app.use(cors())
+
+app.all('/', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
+});
 
 /// Connect MongoDB
 mongoose.connect(process.env.MONGO_URL)
@@ -29,6 +35,9 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", () => {
     console.log("Connect MongoDB Failed !")
 })
+
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 app.use("/api/clothes", ClothesRoute)
 app.use("/api/account", AccountRoute)

@@ -12,18 +12,16 @@ const clothesController = {
     },
     create: (req, res) => {
         const newClothes = new clothesModel({
-                name: req.body.name,
-                price: req.body.price,
-                brand: req.body.brand,
-                images: req.body.images,
-                description: req.body.description,
-                _categoryId: req.body._categoryId,
-                size: req.body.size
-            })
-            // console.log(newStatus)
+            name: req.body.name,
+            price: req.body.price,
+            brand: req.body.brand,
+            images: req.body.images,
+            description: req.body.description,
+            _categoryId: req.body._categoryId,
+            size: req.body.sizes
+        })
         newClothes.save()
             .then((data) => {
-                // console.log(data)
                 res.send("Add Success")
             })
             .catch(err => {
@@ -74,6 +72,28 @@ const clothesController = {
                 res.send("Delete success")
             })
             .catch(err => { res.status.json({ Err: err }) })
-    }
+    },
+
+    update: (req, res) => {
+        clothesModel.findByIdAndUpdate({
+                _id: req.body._id
+            }, {
+                name: req.body.name,
+                brand: req.body.brand,
+                size: req.body.size,
+                _categoryId: req.body._categoryId,
+                images: req.body.images,
+                price: req.body.price,
+                description: req.body.description,
+                published: req.body.published,
+                isAvailable: req.body.isAvailable
+            })
+            .then(data => {
+                res.send('Update success')
+            })
+            .catch(err => console.log(err))
+    },
+
+
 }
 module.exports = clothesController
