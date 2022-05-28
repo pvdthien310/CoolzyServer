@@ -1,5 +1,4 @@
 const express = require('express')
-const { route } = require('express/lib/application')
 var router = express.Router()
 const controller = require('../controllers/category.controller')
 const { authenToken } = require('../middlewares/authenToken')
