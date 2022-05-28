@@ -8,6 +8,7 @@ router.post('/', controller.create)
 router.post('/checkEmail/:email', controller.checkEmail)
 
 router.get('/:email', controller.getByEmail)
+router.get('/getById/:id', controller.getById)
 router.get('/', controller.getAll)
 router.get('/staff/all', controller.getAllStaff)
 

@@ -21,7 +21,7 @@ const accountController = {
             .then(data => {
                 if (data) {
 
-                    res.send('Email already exists')
+                    res.status(500).send('Email already exists')
                     return
                     // } else if (!mFunction.validatePhoneNumber(req.body.phoneNumber)) {
                     //     res.send('Contact consist of numeric and 10 characters')
@@ -63,6 +63,15 @@ const accountController = {
                 res.status(500).json({ Err: err })
             })
     },
+    getById: (req, res) => {
+        accountModel.findById(req.params.id)
+            .then(data => {
+                res.json(data)
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
+    },
     deleteAll: (req, res) => {
         accountModel.deleteMany({})
             .then((data) => {
@@ -76,9 +85,9 @@ const accountController = {
         accountModel.findOne({ email: req.params.email })
             .then(data => {
                 if (data) {
-                    res.send('Email already exists')
+                    res.status(500).send('Email already exists')
                 } else {
-                    res.send('EmailOK')
+                    res.status(200).send('EmailOK')
                 }
             })
             .catch(err => console.log(err))
@@ -94,7 +103,9 @@ const accountController = {
     deleteAccount: (req, res) => {
         accountModel.findOneAndDelete({ _id: req.params.id })
             .then((data) => {
+                if (data)
                 res.send(data)
+                else res.status(404).send("Delete failed")
             }).catch(err => {
                 console.log(err)
             })
