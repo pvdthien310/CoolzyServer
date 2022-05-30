@@ -29,6 +29,10 @@ const AccountSchema = new mongoose.Schema({
     },
     birthday: {
         type: String,
+    },
+    enable: {
+        type: Boolean,
+        default: true
     }
 })
 module.exports = mongoose.model("Account", AccountSchema);
