@@ -13,7 +13,7 @@ const favoriteController = {
     create: (req, res) => {
         const newFav = new favoriteModel({
             email: req.body.email,
-            clotheid: req.body.clotheID
+            clotheid: req.body.clotheid
         })
         newFav.save()
             .then((data) => {
