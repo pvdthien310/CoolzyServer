@@ -1,180 +1,103 @@
-const cartModel = require('../models/cart.model')
+const accountModel = require('../models/account.model')
+const jwt = require('jsonwebtoken')
+const { encode } = require('base-64');
+const mFunction = require('../function')
 
 const cartController = {
-    getAllByUser: (req, res) => {
-        cartModel.find({ email: req.params.email })
+    getByUserId: (req, res) => {
+        accountModel.findById(req.params.id)
             .then(data => {
-                res.json(data)
+                res.json(data.listCarts)
             })
             .catch(err => {
                 res.status(500).json({ Err: err })
             })
     },
 
-    create: (req, res) => {
-        if (!req.body.userID || !req.body.productID) {
-            res.status(400).send({
-                message: "Content can not be empty!"
-            });
-            return;
+    insert: (req, res) => {
+        let userId = req.params.id
+
+        let newCart = {
+            clothId: req.body.clothId,
+            quantity: req.body.quantity,
+            size: req.body.size
+        }
+        accountModel.findOne({ _id: userId })
+            .then((data) => {
+                let listCart = data.listCarts.filter(e => e.clothId == newCart.clothId && e.size == newCart.size)
+                if (listCart.length == 0) {
+                    insertCart(res, userId, newCart)
+                } else {
+                    newCart.quantity = +newCart.quantity + +listCart[0].quantity
+
+                    accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: newCart.clothId, size: newCart.size } } }, { "new": true, "upsert": true })
+                        .then((data) => {
+                            insertCart(res, userId, newCart)
+
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+
+
+    },
+
+    delete: (req, res) => {
+        let userId = req.params.id
+        let deleteCart = {
+            clothId: req.body.clothId,
+            size: req.body.size
         }
 
-        cartModel.findOne({
-                productId: req.body.productId,
-                email: req.body.email
+        accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: deleteCart.clothId, size: deleteCart.size } } }, { "new": true, "upsert": true })
+            .then((data) => {
+                res.send(data)
+            }).catch(err => {
+                console.log(err)
             })
-            .then(data => {
-                if (data == null) {
-                    const cart = {
-                        email: req.body.email,
-                        productId: req.body.productId,
-                        quantity: req.body.quantity
-                    };
-                    cartModel.create(cart)
-                        .then(data => {
-                            res.send(data);
-                        })
-                        .catch(err => {
-                            res.status(500).send({
-                                message: err.message || "Some error occurred while creating the Cart."
-                            });
-                        });
-                } else {
-                    let quantity = data.amount
-                    cartModel.update({ amount: quantity + 1 }, {
-                            where: { productid: req.body.productID, userid: req.body.userID }
-                        })
-                        .then(num => {
-                            if (num == 1) {
-                                res.send({
-                                    message: "Cart was updated successfully."
-                                });
-                            } else {
-                                res.send({
-                                    message: `Cannot update Cart with id=${id}. Maybe Cart was not found or req.body is empty!`
-                                });
-                            }
-                        })
-                        .catch(err => {
-                            res.status(500).send({
-                                message: "Error updating Cart with id=" + id
-                            });
-                        });
-                }
-            })
-            .catch(err => {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Cart."
-                });
-            });
     },
 
-    decrease: (req, res) => {
-        // Validate request
-        if (!req.body.email || !req.body.productId) {
-            res.status(400).send({
-                message: "Content can not be empty!"
-            });
-            return;
+    update: (req, res) => {
+        let userId = req.params.id
+
+        let newCart = {
+            clothId: req.body.clothId,
+            quantity: req.body.quantity,
+            size: req.body.size,
         }
 
-        cartModel.findOne({
-                productId: req.body.productId,
-                email: req.body.email
-            })
-            .then(data => {
-                if (data == null) {
-                    res.send("There is no this product in your cart")
-                } else {
-                    let quantity = data.quantity;
-                    if (quantity == 1) {
-                        cartModel.destroy({
-                                productId: req.body.productId,
-                                email: req.body.email
-                            })
-                            .then(num => {
-                                if (num == 1) {
-                                    res.send({
-                                        message: "Cart was deleted successfully!"
-                                    });
-                                } else {
-                                    res.send({
-                                        message: `Cannot delete Cart with id=${id}. Maybe Cart was not found!`
-                                    });
-                                }
-                            })
-                            .catch(err => {
-                                res.status(500).send({
-                                    message: "Could not delete Cart with id=" + id
-                                });
-                            });
-                    } else {
-                        cartModel.update({ amount: quantity - 1 }, {
-                                productId: req.body.productId,
-                                email: req.body.email
-                            })
-                            .then(num => {
-                                if (num == 1) {
-                                    res.send({
-                                        message: "Cart was updated successfully."
-                                    });
-                                } else {
-                                    res.send({
-                                        message: `Cannot update Cart with id=${id}. Maybe Cart was not found or req.body is empty!`
-                                    });
-                                }
-                            })
-                            .catch(err => {
-                                res.status(500).send({
-                                    message: "Error updating Cart with id=" + id
-                                });
-                            });
-                    }
-                }
-            })
-            .catch(err => {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Cart."
-                });
-            });
-    },
+        // accountModel.findOneAndUpdate({ _id: userId, 'listCarts.clothId': clothIdUpdate, 'listCarts.size': sizeUpdate }, { $set: { 'listCarts.$.quantity': quantityUpdate } }, { "new": true, "upsert": true })
+        //     .then((data) => {
+        //         res.send(data)
+        //     }).catch(err => {
+        //         console.log(err)
+        //     })
 
-    deleteAll: (req, res) => {
-        cartModel.deleteMany({})
+        accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: newCart.clothId, size: newCart.size } } }, { "new": true, "upsert": true })
             .then((data) => {
-                // console.log(data)
-                res.send("Delete All Success")
-            })
-            .catch(err => {
-                console.log('Error')
+                accountModel.findOneAndUpdate({ _id: userId }, { $push: { listCarts: newCart } }, { "new": true, "upsert": true })
+                    .then((data) => {
+                        res.send(data)
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+            }).catch(err => {
+                console.log(err)
             })
     },
-
-    getById: (req, res) => {
-        cartModel.findOne({
-                _id: req.params.id
-            })
-            .then(data => {
-                res.json(data)
-            })
-            .catch(err => {
-                res.status(500).json({ Err: err })
-            })
-    },
-
-    deleteById: (req, res) => {
-        cartModel.deleteOne({
-                _id: req.params.id
-            })
-            .then((data) => {
-                // console.log(data)
-                res.send("Delete Success")
-            })
-            .catch(err => {
-                console.log('Error')
-            })
-    },
-
-
 }
+
+const insertCart = (res, userId, newCart) => {
+    accountModel.findOneAndUpdate({ _id: userId }, { $push: { listCarts: newCart } }, { "new": true, "upsert": true })
+        .then((data) => {
+            res.send(data)
+        }).catch(err => {
+            console.log(err)
+        })
+}
+
 module.exports = cartController
