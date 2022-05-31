@@ -40,6 +40,8 @@ const accountController = {
                         gender: req.body.gender,
                         birthday: req.body.birthday,
                         role: req.body.role,
+                        enable: true,
+                        listCarts: req.body.listCarts
                     }
 
                     return accountModel.create(newAccount)
@@ -104,7 +106,7 @@ const accountController = {
         accountModel.findOneAndDelete({ _id: req.params.id })
             .then((data) => {
                 if (data)
-                res.send(data)
+                    res.send(data)
                 else res.status(404).send("Delete failed")
             }).catch(err => {
                 console.log(err)

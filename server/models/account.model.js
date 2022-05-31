@@ -33,6 +33,9 @@ const AccountSchema = new mongoose.Schema({
     enable: {
         type: Boolean,
         default: true
+    },
+    listCarts: {
+        type: Array
     }
 })
 module.exports = mongoose.model("Account", AccountSchema);
