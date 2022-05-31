@@ -14,6 +14,7 @@ const AuthenticationRoute = require('./routes/authentication.routes')
 const EmailRoute = require('./routes/email.routes')
 const CategoryRoute = require('./routes/category.routes');
 const cloudinaryRoute = require('./routes/cloudinary.routes');
+const FavoriteRoute = require('./routes/favorite.routes')
 
 
 /// Process file json and env
@@ -21,7 +22,7 @@ app.use(cors())
 app.use(bodyParser.json())
 dotenv.config();
 
-app.all('/', function(req, res, next) {
+app.all('/', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next()
@@ -48,6 +49,8 @@ app.use("/api/homePageAsset", HomePageAssetRoute)
 app.use('/api/sendMail', EmailRoute)
 app.use("/api/category", CategoryRoute)
 app.use("/api/cloudinary", cloudinaryRoute)
+app.use("/api/favorite", FavoriteRoute)
+
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
