@@ -13,6 +13,7 @@ const HomePageAssetRoute = require('./routes/homePageAsset.routes')
 const AuthenticationRoute = require('./routes/authentication.routes')
 const EmailRoute = require('./routes/email.routes')
 const CategoryRoute = require('./routes/category.routes');
+const CartRoute = require('./routes/cart.routes')
 const cloudinaryRoute = require('./routes/cloudinary.routes');
 const FavoriteRoute = require('./routes/favorite.routes')
 
@@ -48,6 +49,7 @@ app.use("/api/code", CodeRoute)
 app.use("/api/homePageAsset", HomePageAssetRoute)
 app.use('/api/sendMail', EmailRoute)
 app.use("/api/category", CategoryRoute)
+app.use("/api/cart", CartRoute)
 app.use("/api/cloudinary", cloudinaryRoute)
 app.use("/api/favorite", FavoriteRoute)
 
