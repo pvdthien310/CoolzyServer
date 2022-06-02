@@ -16,8 +16,9 @@ const cartController = {
 
     insert: (req, res) => {
         let userId = req.params.id
-
+        let cartId = mFunction.makeId(6)
         let newCart = {
+            id: cartId,
             clothId: req.body.clothId,
             quantity: req.body.quantity,
             size: req.body.size
@@ -29,11 +30,10 @@ const cartController = {
                     insertCart(res, userId, newCart)
                 } else {
                     newCart.quantity = +newCart.quantity + +listCart[0].quantity
-
-                    accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: newCart.clothId, size: newCart.size } } }, { "new": true, "upsert": true })
+                    let cartUpdateId = listCart[0].id
+                    accountModel.findOneAndUpdate({ _id: userId, 'listCarts.id': cartUpdateId }, { $set: { 'listCarts.$.quantity': newCart.quantity } }, { "new": true, "upsert": true })
                         .then((data) => {
-                            insertCart(res, userId, newCart)
-
+                            res.send(data)
                         }).catch(err => {
                             console.log(err)
                         })
@@ -47,12 +47,9 @@ const cartController = {
 
     delete: (req, res) => {
         let userId = req.params.id
-        let deleteCart = {
-            clothId: req.body.clothId,
-            size: req.body.size
-        }
+        let cartId = req.body.id
 
-        accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: deleteCart.clothId, size: deleteCart.size } } }, { "new": true, "upsert": true })
+        accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { id: cartId } } }, { "new": true, "upsert": true })
             .then((data) => {
                 res.send(data)
             }).catch(err => {
@@ -64,30 +61,31 @@ const cartController = {
         let userId = req.params.id
 
         let newCart = {
+            id: req.body.id,
             clothId: req.body.clothId,
             quantity: req.body.quantity,
             size: req.body.size,
         }
 
-        // accountModel.findOneAndUpdate({ _id: userId, 'listCarts.clothId': clothIdUpdate, 'listCarts.size': sizeUpdate }, { $set: { 'listCarts.$.quantity': quantityUpdate } }, { "new": true, "upsert": true })
-        //     .then((data) => {
-        //         res.send(data)
-        //     }).catch(err => {
-        //         console.log(err)
-        //     })
-
-        accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: newCart.clothId, size: newCart.size } } }, { "new": true, "upsert": true })
+        accountModel.findOneAndUpdate({ _id: userId, 'listCarts.id': newCart.id }, { $set: { 'listCarts.$.quantity': newCart.quantity, 'listCarts.$.size': newCart.size } }, { "new": true, "upsert": true })
             .then((data) => {
-                accountModel.findOneAndUpdate({ _id: userId }, { $push: { listCarts: newCart } }, { "new": true, "upsert": true })
-                    .then((data) => {
-                        res.send(data)
-                    }).catch(err => {
-                        console.log(err)
-                    })
-
+                res.send(data)
             }).catch(err => {
                 console.log(err)
             })
+
+        // accountModel.findOneAndUpdate({ _id: userId }, { $pull: { listCarts: { clothId: newCart.clothId, size: newCart.size } } }, { "new": true, "upsert": true })
+        //     .then((data) => {
+        //         accountModel.findOneAndUpdate({ _id: userId }, { $push: { listCarts: newCart } }, { "new": true, "upsert": true })
+        //             .then((data) => {
+        //                 res.send(data)
+        //             }).catch(err => {
+        //                 console.log(err)
+        //             })
+
+        //     }).catch(err => {
+        //         console.log(err)
+        //     })
     },
 }
 
