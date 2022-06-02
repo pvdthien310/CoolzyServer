@@ -18,7 +18,8 @@ const orderController = {
             address: req.body.address,
             items: req.body.items,
             total: req.body.total,
-            status: req.body.status
+            status: req.body.status,
+            method: req.body.method
         })
         neworder.save()
             .then((data) => {
