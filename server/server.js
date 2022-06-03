@@ -16,6 +16,7 @@ const CategoryRoute = require('./routes/category.routes');
 const CartRoute = require('./routes/cart.routes')
 const cloudinaryRoute = require('./routes/cloudinary.routes');
 const FavoriteRoute = require('./routes/favorite.routes')
+const SlidedataRoute = require('./routes/slidedata.routes')
 
 
 /// Process file json and env
@@ -38,8 +39,19 @@ mongoose.connection.on("error", () => {
     console.log("Connect MongoDB Failed !")
 })
 
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
+// app.use(express.json({ limit: '500mb' }));
+// app.use(express.urlencoded({ limit: '500mb', extended: true }));
+app.use(bodyParser.json({
+    limit: '50mb'
+}));
+
+app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    parameterLimit: 100000,
+    extended: true
+}));
+
+
 
 app.use("/api/clothes", ClothesRoute)
 app.use("/api/account", AccountRoute)
@@ -52,6 +64,7 @@ app.use("/api/category", CategoryRoute)
 app.use("/api/cart", CartRoute)
 app.use("/api/cloudinary", cloudinaryRoute)
 app.use("/api/favorite", FavoriteRoute)
+app.use("/api/slidedata", SlidedataRoute)
 
 
 const port = process.env.PORT || 3001

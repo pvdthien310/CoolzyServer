@@ -8,6 +8,7 @@ router.get('/', controller.getAll)
 router.post('/', controller.create)
 router.post('/updateSlider', controller.updateListSlider)
 router.post('/updateProduct', controller.updateListProduct)
+router.post('/updateFeaturedProduct', controller.updateListFeaturedProduct)
 router.post('/updateBrand', controller.updateListBrand)
 
 module.exports = router
