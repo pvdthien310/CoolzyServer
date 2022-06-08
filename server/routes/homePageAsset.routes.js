@@ -6,9 +6,10 @@ const { authenToken } = require('../middlewares/authenToken')
 
 router.get('/', controller.getAll)
 router.post('/', controller.create)
-router.post('/updateSlider', controller.updateListSlider)
-router.post('/updateProduct', controller.updateListProduct)
-router.post('/updateFeaturedProduct', controller.updateListFeaturedProduct)
-router.post('/updateBrand', controller.updateListBrand)
+router.put('/', controller.update)
+// router.post('/updateSlider', controller.updateListSlider)
+// router.post('/updateProduct', controller.updateListProduct)
+// router.post('/updateFeaturedProduct', controller.updateListFeaturedProduct)
+// router.post('/updateBrand', controller.updateListBrand)
 
 module.exports = router
