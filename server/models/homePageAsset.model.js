@@ -13,7 +13,11 @@ const HomePageAsset = new mongoose.Schema({
     listBrand: {
         type: Array,
         required: true
-    }
+    },
+    listFeaturedProduct: {
+        type: Array,
+        required: true
+    },
 })
 
 module.exports = mongoose.model("HomePageAsset", HomePageAsset);
