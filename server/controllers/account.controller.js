@@ -87,7 +87,7 @@ const accountController = {
         accountModel.findOne({ email: req.params.email })
             .then(data => {
                 if (data) {
-                    res.status(500).send('Email already exists')
+                    res.send('Email already exists')
                 } else {
                     res.status(200).send('EmailOK')
                 }
@@ -136,6 +136,16 @@ const accountController = {
             })
     },
 
-
+    updatePassword: (req, res) => {
+        accountModel.updateOne({ email: req.body.email }, {
+                password: encode(req.body.password),
+            }, { new: 'true' })
+            .then(data => {
+                res.json("Update successful")
+            })
+            .catch(err => {
+                res.status(500).json({ Err: err })
+            })
+    },
 }
 module.exports = accountController
