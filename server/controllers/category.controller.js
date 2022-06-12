@@ -30,7 +30,7 @@ const categoriesController = {
         newCategory.save()
             .then((data) => {
                 // console.log(data)
-                res.send("Add Success")
+                res.send(data)
             })
             .catch(err => {
                 console.log('Error')
