@@ -1,4 +1,5 @@
 const categoryModel = require('../models/category.model')
+const clothModel = require('../models/clothes.model')
 
 const categoriesController = {
     getAll: (req, res) => {
@@ -61,16 +62,31 @@ const categoriesController = {
     },
 
     deleteById: (req, res) => {
-        categoryModel.deleteOne({
-                _id: req.params.id
+        clothModel.findOne({
+                _categoryId: req.params.id
             })
-            .then((data) => {
-                // console.log(data)
-                res.send("Delete Success")
+            .then(data => {
+                if (!data) {
+                    categoryModel.deleteOne({
+                            _id: req.params.id
+                        })
+                        .then((data) => {
+                            // console.log(data)
+                            res.send("Delete Success")
+                        })
+                        .catch(err => {
+                            console.log('Error')
+                        })
+                } else {
+                    res.send('Error')
+                }
+
             })
             .catch(err => {
-                console.log('Error')
+                res.status(500).json({ Err: err })
             })
+
+
     },
 
 
